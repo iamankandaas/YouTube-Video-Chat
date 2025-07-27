@@ -1,5 +1,3 @@
-# rag_system.py (Final Version - Using YOUR proven fetch() method)
-
 import os
 from dotenv import load_dotenv
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -28,15 +26,9 @@ def get_transcript(youtube_url):
     Fetches the transcript using the instance-based fetch() method that you proved works.
     """
     try:
-        video_id = youtube_url.split("v=")[1].split("&")[0]
-        
-        # --- IMPLEMENTING THE EXACT METHOD FROM YOUR SCREENSHOT ---
-        ytt_api = YouTubeTranscriptApi()
-        
-        # Using .fetch() exactly as you showed
+        video_id = youtube_url.split("v=")[1].split("&")[0]        
+        ytt_api = YouTubeTranscriptApi()        
         transcript_chunks = ytt_api.fetch(video_id)
-        
-        # NEW, CORRECT LINE
         transcript = " ".join([chunk.text for chunk in transcript_chunks])
         
         if not transcript:

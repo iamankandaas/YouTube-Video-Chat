@@ -1,7 +1,4 @@
-# streamlit_app.py
-
 import streamlit as st
-# We will import the functions directly from your existing rag_system.py
 from rag_system import get_transcript, create_vector_store, create_rag_chain
 
 st.set_page_config(layout="wide", page_title="YouTube Video Chat")
