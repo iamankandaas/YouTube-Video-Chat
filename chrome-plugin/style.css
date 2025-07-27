@@ -1,0 +1,17 @@
+/* chrome-plugin/style.css */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 350px;
+    background-color: #f4f4f9;
+}
+.container { padding: 15px; }
+#header { display: flex; justify-content: space-between; align-items: center; }
+#chat-box { height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; background: white; margin: 10px 0; }
+.user-msg, .bot-msg { padding: 8px; border-radius: 5px; margin-bottom: 10px; max-width: 80%; }
+.user-msg { background-color: #dcf8c6; align-self: flex-end; }
+.bot-msg { background-color: #f1f0f0; }
+#input-area { display: flex; }
+#user-input { flex-grow: 1; border: 1px solid #ccc; padding: 8px; }
+#send-btn { padding: 8px; background-color: #007bff; color: white; border: none; cursor: pointer; }
+#send-btn:disabled { background-color: #ccc; }
+#status { font-size: 0.8em; color: #666; text-align: center; margin-top: 10px; }

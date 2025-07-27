@@ -1,0 +1,56 @@
+/* chrome-plugin/manifest.json */
+{
+  "manifest_version": 3,
+  "name": "YouTube Video Chat",
+  "version": "1.0",
+  "description": "Chat with any YouTube video.",
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "images/icon16.png",
+      "48": "images/icon48.png",
+      "128": "images/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  }
+}```
+
+*You'll need to create an `images` folder inside `chrome-plugin` and add some placeholder icons (e.g., `icon16.png`).*
+
+#### **3. Create the UI (`popup.html` and `style.css`)**
+
+This is the HTML and CSS for the plugin's pop-up window.
+
+**`popup.html`:**
+```html
+<!-- chrome-plugin/popup.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>YouTube Chat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div id="header">
+            <h3>Chat with this Video</h3>
+            <button id="process-video-btn">Load Video</button>
+        </div>
+        <div id="chat-box"></div>
+        <div id="input-area">
+            <input type="text" id="user-input" placeholder="Ask a question..." disabled>
+            <button id="send-btn" disabled>Send</button>
+        </div>
+        <div id="status"></div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>
