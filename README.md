@@ -1,8 +1,3 @@
-Here’s a **beautiful, professional, and engaging README.md** written in Markdown, perfectly suited for GitHub or any project hosting platform. It’s been structured with clear sections, emojis, proper formatting, and language that reflects a mix of technical depth and storytelling flair:
-
----
-
-````markdown
 # 💬 YouTube Video Chat - A RAG Implementation
 
 Welcome to an end-to-end **Retrieval-Augmented Generation (RAG)** system that allows you to have an intelligent conversation with any YouTube video — using nothing but its transcript!
