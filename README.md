@@ -85,20 +85,15 @@ You provide a YouTube URL, and the system extracts, processes, and chats with yo
 ### 📦 Clone the Repository
 
 ```bash
-git clone <your-github-repository-url>
-cd youtube-chat-rag
+git clone https://github.com/iamankandaas/YouTube-Video-Chat.git
+cd YouTube-Video-Chat
 ```
 
 ### 🧪 Create and Activate a Virtual Environment
 
 ```bash
-# Windows
 python -m venv venv
 venv\Scripts\activate
-
-# macOS/Linux
-python3 -m venv venv
-source venv/bin/activate
 ```
 
 ### 📥 Install Dependencies
@@ -112,7 +107,7 @@ pip install -r requirements.txt
 Create a `.env` file in the root directory and add your OpenAI key:
 
 ```env
-OPENAI_API_KEY="your_sk-..."
+OPENAI_API_KEY="INSERT_YOUR_OPENAI_API_KEY"
 ```
 
 ### 🖥️ Run the App
