@@ -1,0 +1,24 @@
+
+<!-- chrome-plugin/popup.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>YouTube Chat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div id="header">
+            <h3>Chat with this Video</h3>
+            <button id="process-video-btn">Load Video</button>
+        </div>
+        <div id="chat-box"></div>
+        <div id="input-area">
+            <input type="text" id="user-input" placeholder="Ask a question..." disabled>
+            <button id="send-btn" disabled>Send</button>
+        </div>
+        <div id="status"></div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>
