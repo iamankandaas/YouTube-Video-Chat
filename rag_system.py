@@ -1,56 +1,77 @@
-# rag_system.py
+# rag_system.py (Final Version - Using YOUR proven fetch() method)
+
 import os
 from dotenv import load_dotenv
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import HuggingFaceEmbeddings 
-from langchain_openai import OpenAIEmbeddings, ChatOpenAI
-from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
-from youtube_transcript_api import YouTubeTranscriptApi
+
+# Import the library and its exceptions
+from youtube_transcript_api import YouTubeTranscriptApi, TranscriptsDisabled, NoTranscriptFound
 
 # Load environment variables
 load_dotenv()
 
-# Set up the language model and embeddings
-llm = ChatOpenAI(model="gpt-3.5-turbo-0125")
+# Set up the models
+llm = ChatOpenAI(model="gpt-3.5-turbo-0125", temperature=0.2)
 embeddings = HuggingFaceEmbeddings(
     model_name="all-MiniLM-L6-v2", 
-    model_kwargs={'device': 'cpu'} # Use CPU for embeddings
+    model_kwargs={'device': 'cpu'}
 )
+
 def get_transcript(youtube_url):
-    """Fetches the transcript for a given YouTube video URL."""
-    video_id = youtube_url.split("v=")[1]
-    transcript_list = YouTubeTranscriptApi.get_transcript(video_id)
-    transcript = " ".join([d['text'] for d in transcript_list])
-    return transcript
+    """
+    Fetches the transcript using the instance-based fetch() method that you proved works.
+    """
+    try:
+        video_id = youtube_url.split("v=")[1].split("&")[0]
+        
+        # --- IMPLEMENTING THE EXACT METHOD FROM YOUR SCREENSHOT ---
+        ytt_api = YouTubeTranscriptApi()
+        
+        # Using .fetch() exactly as you showed
+        transcript_chunks = ytt_api.fetch(video_id)
+        
+        # NEW, CORRECT LINE
+        transcript = " ".join([chunk.text for chunk in transcript_chunks])
+        
+        if not transcript:
+             raise Exception("Transcript was found but was empty.")
+             
+        return transcript
+        
+    except (TranscriptsDisabled, NoTranscriptFound):
+        raise Exception("No English transcript was found for this video.")
+    except Exception as e:
+        raise Exception(f"An error occurred while fetching the transcript: {e}")
+
 
 def create_vector_store(transcript):
-    """Creates a FAISS vector store from the transcript."""
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
-    docs = text_splitter.split_text(transcript)
-    vector_store = FAISS.from_texts(docs, embedding=embeddings)
+    docs_as_strings = text_splitter.split_text(transcript)
+    vector_store = FAISS.from_texts(docs_as_strings, embedding=embeddings)
     return vector_store
 
 def create_rag_chain(vector_store):
-    """Creates a RAG chain using LangChain Runnables."""
     retriever = vector_store.as_retriever()
-
-    prompt_template = """Answer the user's question based on the following context:
-    {context}
-    
+    prompt_template = """Answer the user's question based ONLY on the following context:
+    If the answer is not found in the context, say "I don't have enough information from the video to answer that."
+    Context: {context}
     Question: {question}
     """
     prompt = ChatPromptTemplate.from_template(prompt_template)
 
-    # Creating the chain using LangChain Expression Language (LCEL)
+    def format_docs(docs):
+        return "\n\n".join(doc.page_content for doc in docs)
+
     rag_chain = (
-        {"context": retriever, "question": RunnablePassthrough()}
+        {"context": retriever | format_docs, "question": RunnablePassthrough()}
         | prompt
         | llm
         | StrOutputParser()
     )
-    
     return rag_chain
